@@ -1,10 +1,9 @@
 package Fsoft.MOOCProject.controller;
 
+import Fsoft.MOOCProject.entities.ResponseAPI;
 import Fsoft.MOOCProject.entities.entitiesDTO.request.CertificateRequest;
 import Fsoft.MOOCProject.entities.entitiesDTO.response.CertificateResponse;
-import Fsoft.MOOCProject.entities.model.Certificate;
 import Fsoft.MOOCProject.services.service_interface.CertificateService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,29 +11,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/certificate")
 public class CertificateController {
-//    @Autowired
-//    private CertificateService certificateService;
-//
-//    @PostMapping("/add")
-//    public CertificateResponse add(@RequestBody CertificateRequest certificate, @RequestParam("eid") int eid){
-//       return certificateService.add(certificate,eid);
-//    }
-//
-//    @GetMapping("/list")
-//    public List<CertificateResponse> list(){
-//        return certificateService.list();
-//    }
-//
-//    @GetMapping("/listbyemp")
-//    public List<Certificate> listByEmp(@RequestParam int eid){return certificateService.getAllByEid(eid);}
-//
-//    @PutMapping("/update")
-//    public String update(@RequestBody Certificate certificate, @RequestParam("id") int id){
-//        return certificateService.update(certificate, id);
-//    }
-//
-//    @DeleteMapping("/delete")
-//    public String delete(@RequestParam int id){
-//        return certificateService.delete(id);
-//    }
+    private final CertificateService certificateService;
+
+    public CertificateController(CertificateService certificateService) {
+        this.certificateService = certificateService;
+    }
+
+    @GetMapping("/list")
+    public List<CertificateResponse> list(){
+        return this.certificateService.getAll();
+    }
+
+    @PostMapping("/addComplex/{eid}")
+    public CertificateResponse addComplex(@RequestBody CertificateRequest certificateRequest,@PathVariable int eid){
+        return this.certificateService.addComplex(certificateRequest, eid);
+    }
+
+    @PostMapping("/add/{eid}")
+    public ResponseAPI add(@RequestBody CertificateRequest certificateRequest,@PathVariable int eid){
+        return this.certificateService.add(certificateRequest, eid);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseAPI update(@RequestBody CertificateRequest certificateRequest,@PathVariable int id){
+        return this.certificateService.update(certificateRequest, id);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseAPI delete(@PathVariable int id){
+        return this.certificateService.delete(id);
+    }
 }
