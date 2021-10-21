@@ -33,13 +33,13 @@ public class UserController {
         return userService.add(u);
     }
 
-    @PutMapping("/update")
-    public ResponseAPI update(@RequestBody UserRequest u, @RequestParam int id){
+    @PutMapping("/update/{id}")
+    public ResponseAPI update(@RequestBody UserRequest u, @PathVariable int id){
         return userService.update(u, id);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseAPI delete(@RequestParam int id){
+    @DeleteMapping("/delete/{id}")
+    public ResponseAPI delete(@PathVariable int id){
         return userService.delete(id);
     }
 }
